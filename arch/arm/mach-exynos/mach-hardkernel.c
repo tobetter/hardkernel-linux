@@ -97,6 +97,10 @@ static struct s3c2410_uartcfg hardkernel_uartcfgs[] __initdata = {
 	},
 };
 
+static struct regulator_consumer_supply __initdata ldo0_consumer[] = {
+	REGULATOR_SUPPLY("vdd", "s5p-adc"), /* ADC */
+	REGULATOR_SUPPLY("vdd_osc", "exynos4-hdmi"), /* HDMI */
+};
 static struct regulator_consumer_supply __initdata ldo3_consumer[] = {
 	REGULATOR_SUPPLY("vdd11", "s5p-mipi-csis.0"), /* MIPI */
 	REGULATOR_SUPPLY("vdd", "exynos4-hdmi"), /* HDMI */
@@ -109,8 +113,6 @@ static struct regulator_consumer_supply __initdata ldo7_consumer[] = {
 	REGULATOR_SUPPLY("avdd", "alc5625"), /* Realtek ALC5625 */
 };
 static struct regulator_consumer_supply __initdata ldo8_consumer[] = {
-	REGULATOR_SUPPLY("vdd", "s5p-adc"), /* ADC */
-	REGULATOR_SUPPLY("vdd_osc", "exynos4-hdmi"), /* HDMI */
 };
 static struct regulator_consumer_supply __initdata ldo9_consumer[] = {
 	REGULATOR_SUPPLY("dvdd", "swb-a31"), /* AR6003 WLAN & CSR 8810 BT */
@@ -144,6 +146,8 @@ static struct regulator_init_data __initdata max8997_ldo1_data = {
 			.disabled	= 1,
 		},
 	},
+	.num_consumer_supplies	= ARRAY_SIZE(ldo0_consumer),
+	.consumer_supplies	= ldo0_consumer,
 };
 
 static struct regulator_init_data __initdata max8997_ldo2_data	= {
