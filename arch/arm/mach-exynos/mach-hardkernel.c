@@ -109,7 +109,6 @@ static struct regulator_consumer_supply __initdata ldo6_consumer[] = {
 	REGULATOR_SUPPLY("vdd18", "s5p-mipi-csis.0"), /* MIPI */
 };
 static struct regulator_consumer_supply __initdata ldo7_consumer[] = {
-	REGULATOR_SUPPLY("avdd", "alc5625"), /* Realtek ALC5625 */
 };
 static struct regulator_consumer_supply __initdata ldo8_consumer[] = {
 };
@@ -117,7 +116,6 @@ static struct regulator_consumer_supply __initdata ldo9_consumer[] = {
 	REGULATOR_SUPPLY("dvdd", "swb-a31"), /* AR6003 WLAN & CSR 8810 BT */
 };
 static struct regulator_consumer_supply __initdata ldo11_consumer[] = {
-	REGULATOR_SUPPLY("dvdd", "alc5625"), /* Realtek ALC5625 */
 };
 static struct regulator_consumer_supply __initdata ldo14_consumer[] = {
 	REGULATOR_SUPPLY("avdd18", "swb-a31"), /* AR6003 WLAN & CSR 8810 BT */
@@ -474,13 +472,15 @@ static struct i2c_board_info i2c0_devs[] __initdata = {
 		.platform_data	= &hardkernel_max8997_pdata,
 		.irq		= IRQ_EINT(0),
 	},
+#if defined(CONFIG_SND_SOC_MAX98088)
+	{
+		I2C_BOARD_INFO("max98089", (0x20 >> 1)),
+	},
+#endif
 };
 
 /* I2C1 */
 static struct i2c_board_info i2c1_devs[] __initdata = {
-	{
-		I2C_BOARD_INFO("alc5625", 0x1E),
-	},
 };
 
 static struct s3c_sdhci_platdata hardkernel_hsmmc0_pdata __initdata = {
@@ -681,6 +681,11 @@ static struct platform_device hardkernel_device_bluetooth = {
 	},
 };
 
+static struct platform_device hardkernel_snd_device = {
+	.name		= "hardkernel-snd",
+	.id		= -1,
+};
+
 static struct platform_device *hardkernel_devices[] __initdata = {
 	&s3c_device_hsmmc2,
 	&s3c_device_hsmmc0,
@@ -717,6 +722,7 @@ static struct platform_device *hardkernel_devices[] __initdata = {
 	&hardkernel_lcd_hv070wsa,
 	&hardkernel_device_bluetooth,
 	&hardkernel_leds_gpio,
+	&hardkernel_snd_device,
 };
 
 /* LCD Backlight data */

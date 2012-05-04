@@ -212,3 +212,9 @@ config SND_SOC_LITTLEMILL
 	select SND_SAMSUNG_I2S
 	select MFD_WM8994
 	select SND_SOC_WM8994
+
+config SND_SOC_HARDKERNEL
+	tristate "Audio support for Hardkernel"
+	depends on SND_SOC_SAMSUNG && MACH_HARDKERNEL
+	select SND_SAMSUNG_I2S
+	select SND_SOC_MAX98088
