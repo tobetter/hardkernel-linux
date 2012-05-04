@@ -825,6 +825,12 @@ static void __init hardkernel_power_init(void)
 	gpio_request(EXYNOS4_GPX0(4), "PMIC_IRQ");
 	s3c_gpio_cfgpin(EXYNOS4_GPX0(4), S3C_GPIO_SFN(0xf));
 	s3c_gpio_setpull(EXYNOS4_GPX0(4), S3C_GPIO_PULL_NONE);
+
+	// system power enable (P3V3)
+	gpio_request(EXYNOS4_GPX1(1), "p3v3_en");
+	s3c_gpio_cfgpin(EXYNOS4_GPX1(1), S3C_GPIO_OUTPUT);
+	s3c_gpio_setpull(EXYNOS4_GPX1(1), S3C_GPIO_PULL_NONE);
+	gpio_set_value(EXYNOS4_GPX1(1), 1);
 }
 
 static void __init hardkernel_reserve(void)
