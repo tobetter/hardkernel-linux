@@ -133,9 +133,6 @@ static struct regulator_consumer_supply __initdata buck2_consumer[] = {
 static struct regulator_consumer_supply __initdata buck3_consumer[] = {
 	REGULATOR_SUPPLY("vdd_g3d", "mali_drm"), /* G3D */
 };
-static struct regulator_consumer_supply __initdata buck7_consumer[] = {
-	REGULATOR_SUPPLY("vcc-lcd", "lcd-pwrctrl.0"), /* LCD */
-};
 
 static struct regulator_init_data __initdata max8997_ldo1_data = {
 	.constraints	= {
@@ -388,18 +385,18 @@ static struct regulator_init_data __initdata max8997_buck5_data = {
 
 static struct regulator_init_data __initdata max8997_buck7_data = {
 	.constraints	= {
-		.name		= "VDD_LCD_3.3V",
-		.min_uV		= 3300000,
-		.max_uV		= 3300000,
-		.boot_on	= 0,
+		.name		= "VDD_IO_1.8V",
+		.min_uV		= 1800000,
+		.max_uV		= 1950000,
+		.always_on	= 1,
 		.apply_uV	= 1,
 		.valid_ops_mask	= REGULATOR_CHANGE_STATUS,
 		.state_mem	= {
-			.disabled	= 1
+			.uV			= 1800000,
+			.mode		= REGULATOR_MODE_NORMAL,
+			.enabled	= 1,
 		},
 	},
-	.num_consumer_supplies	= ARRAY_SIZE(buck7_consumer),
-	.consumer_supplies	= buck7_consumer,
 };
 
 static struct max8997_regulator_data __initdata hardkernel_max8997_regulators[] = {
