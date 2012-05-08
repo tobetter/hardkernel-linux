@@ -9,7 +9,6 @@
 */
 
 #include <linux/serial_core.h>
-#include <linux/leds.h>
 #include <linux/gpio.h>
 #include <linux/mmc/host.h>
 #include <linux/platform_device.h>
@@ -604,90 +603,6 @@ static void __init hardkernel_ohci_init(void)
 /* USB OTG */
 static struct s3c_hsotg_plat hardkernel_hsotg_pdata;
 
-static struct gpio_led hardkernel_gpio_leds[] = {
-	{
-		.name			= "hardkernel::status1",
-		.default_trigger	= "heartbeat",
-		.gpio			= EXYNOS4_GPX1(3),
-		.active_low		= 1,
-	},
-	{
-		.name			= "hardkernel::status2",
-		.default_trigger	= "mmc0",
-		.gpio			= EXYNOS4_GPX1(4),
-		.active_low		= 1,
-	},
-};
-
-static struct gpio_led_platform_data hardkernel_gpio_led_info = {
-	.leds		= hardkernel_gpio_leds,
-	.num_leds	= ARRAY_SIZE(hardkernel_gpio_leds),
-};
-
-static struct platform_device hardkernel_leds_gpio = {
-	.name	= "leds-gpio",
-	.id	= -1,
-	.dev	= {
-		.platform_data	= &hardkernel_gpio_led_info,
-	},
-};
-
-static struct gpio_keys_button hardkernel_gpio_keys_table[] = {
-	{
-		.code			= KEY_MENU,
-		.gpio			= EXYNOS4_GPX1(5),
-		.desc			= "gpio-keys: KEY_MENU",
-		.type			= EV_KEY,
-		.active_low		= 1,
-		.wakeup			= 1,
-		.debounce_interval	= 1,
-	}, {
-		.code			= KEY_HOME,
-		.gpio			= EXYNOS4_GPX1(6),
-		.desc			= "gpio-keys: KEY_HOME",
-		.type			= EV_KEY,
-		.active_low		= 1,
-		.wakeup			= 1,
-		.debounce_interval	= 1,
-	}, {
-		.code			= KEY_BACK,
-		.gpio			= EXYNOS4_GPX1(7),
-		.desc			= "gpio-keys: KEY_BACK",
-		.type			= EV_KEY,
-		.active_low		= 1,
-		.wakeup			= 1,
-		.debounce_interval	= 1,
-	}, {
-		.code			= KEY_UP,
-		.gpio			= EXYNOS4_GPX2(0),
-		.desc			= "gpio-keys: KEY_UP",
-		.type			= EV_KEY,
-		.active_low		= 1,
-		.wakeup			= 1,
-		.debounce_interval	= 1,
-	}, {
-		.code			= KEY_DOWN,
-		.gpio			= EXYNOS4_GPX2(1),
-		.desc			= "gpio-keys: KEY_DOWN",
-		.type			= EV_KEY,
-		.active_low		= 1,
-		.wakeup			= 1,
-		.debounce_interval	= 1,
-	},
-};
-
-static struct gpio_keys_platform_data hardkernel_gpio_keys_data = {
-	.buttons	= hardkernel_gpio_keys_table,
-	.nbuttons	= ARRAY_SIZE(hardkernel_gpio_keys_table),
-};
-
-static struct platform_device hardkernel_device_gpiokeys = {
-	.name		= "gpio-keys",
-	.dev		= {
-		.platform_data	= &hardkernel_gpio_keys_data,
-	},
-};
-
 static struct lcd_pwrctrl_data hardkernel_lcd_hv070wsa_data = {
 	.gpio	= EXYNOS4_GPE3(4),
 };
@@ -774,9 +689,7 @@ static struct platform_device *hardkernel_devices[] __initdata = {
 	&exynos4_device_i2s0,
 	&exynos4_device_ohci,
 	&exynos4_device_tmu,
-	&hardkernel_device_gpiokeys,
 	&hardkernel_lcd_hv070wsa,
-	&hardkernel_leds_gpio,
 	&hardkernel_device_bluetooth,
 };
 
