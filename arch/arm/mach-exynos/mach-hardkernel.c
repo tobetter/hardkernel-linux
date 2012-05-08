@@ -603,6 +603,28 @@ static void __init hardkernel_ohci_init(void)
 /* USB OTG */
 static struct s3c_hsotg_plat hardkernel_hsotg_pdata;
 
+static struct gpio_led hardkernel_gpio_leds[] = {
+	{
+		.name				= "hardkernel::status",
+		.default_trigger	= "heartbeat",
+		.gpio				= EXYNOS4_GPX1(2),
+		.active_low			= 1,
+	},
+};
+
+static struct gpio_led_platform_data hardkernel_gpio_led_info = {
+	.leds		= hardkernel_gpio_leds,
+	.num_leds	= ARRAY_SIZE(hardkernel_gpio_leds),
+};
+
+static struct platform_device hardkernel_leds_gpio = {
+	.name	= "leds-gpio",
+	.id		= -1,
+	.dev	= {
+		.platform_data	 = &hardkernel_gpio_led_info,
+	},
+};
+
 static struct lcd_pwrctrl_data hardkernel_lcd_hv070wsa_data = {
 	.gpio	= EXYNOS4_GPE3(4),
 };
@@ -694,6 +716,7 @@ static struct platform_device *hardkernel_devices[] __initdata = {
 #endif
 	&hardkernel_lcd_hv070wsa,
 	&hardkernel_device_bluetooth,
+	&hardkernel_leds_gpio,
 };
 
 /* LCD Backlight data */
