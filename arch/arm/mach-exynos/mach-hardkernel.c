@@ -689,6 +689,9 @@ static struct platform_device *hardkernel_devices[] __initdata = {
 	&exynos4_device_i2s0,
 	&exynos4_device_ohci,
 	&exynos4_device_tmu,
+#ifdef CONFIG_SATA_AHCI_PLATFORM
+	&exynos4_device_ahci,
+#endif
 	&hardkernel_lcd_hv070wsa,
 	&hardkernel_device_bluetooth,
 };

@@ -377,6 +377,7 @@ config MACH_HARDKERNEL
 	select EXYNOS4_SETUP_I2C1
 	select EXYNOS4_SETUP_SDHCI
 	select EXYNOS4_SETUP_USB_PHY
+	select EXYNOS4_DEV_AHCI
 	help
 	  Machine support for HARDKERNEL based on Samsung EXYNOS4210
 
