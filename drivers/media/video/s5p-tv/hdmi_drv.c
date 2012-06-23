@@ -42,7 +42,11 @@ MODULE_DESCRIPTION("Samsung HDMI");
 MODULE_LICENSE("GPL");
 
 /* default preset configured on probe */
+#if defined(CONFIG_MACH_HARDKERNEL)
+#define HDMI_DEFAULT_PRESET V4L2_DV_720P59_94
+#else
 #define HDMI_DEFAULT_PRESET V4L2_DV_1080P60
+#endif
 
 struct hdmi_resources {
 	struct clk *hdmi;
